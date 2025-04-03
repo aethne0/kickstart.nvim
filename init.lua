@@ -296,7 +296,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
+      delay = 200,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -433,6 +433,7 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
+
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [k]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -444,8 +445,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-      vim.keymap.set('n', '<leader>eb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'explore buffer path' })
-      vim.keymap.set('n', '<leader>ed', ':Telescope file_browser<CR>', { desc = 'explore opening-dir path' })
+      local fb_actions = require('telescope').extensions.file_browser.actions
+      vim.keymap.set('n', '<leader>eb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = '[e]xplore [b]uffer path' })
+      vim.keymap.set('n', '<leader>ee', ':Telescope file_browser<CR>', { desc = '[e]xplore' })
+      -- vim.keymap.set('n', '<leader>ec', fb_actions.create_from_prompt, { desc = '[e]xplorer [c]reate' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -857,7 +860,8 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          -- ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -925,7 +929,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'murphy' --'minischeme' -- minicyan
     end,
   },
 
@@ -1070,3 +1074,4 @@ require('lazy').setup({
 vim.keymap.set('n', '<C-s>', ':w<CR>', { desc = 'save' })
 vim.keymap.set('n', '<F11>', ':bprev<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F12>', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
