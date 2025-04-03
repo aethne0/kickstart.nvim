@@ -199,6 +199,19 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+--
+
+-- WARN: mine!
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+-- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set('n', '<C-s>', ':w<CR>', { desc = 'save' })
+vim.keymap.set('n', '<F11>', ':bprev<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<F12>', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -239,7 +252,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- WARN: 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -745,6 +758,13 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+
+            require('lspconfig').clangd.setup {
+              cmd = {
+                'clangd',
+                '--fallback-style=Microsoft',
+              },
+            }
           end,
         },
       }
@@ -860,7 +880,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          -- ['<C-y>'] = cmp.mapping.confirm { select = true },
+          --['<C-y>'] = cmp.mapping.confirm { select = true },
           ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
@@ -929,7 +949,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'murphy' --'minischeme' -- minicyan
+      vim.cmd.colorscheme 'minischeme' --'murphy' --'minischeme' -- minicyan
     end,
   },
 
@@ -1070,8 +1090,3 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
-
-vim.keymap.set('n', '<C-s>', ':w<CR>', { desc = 'save' })
-vim.keymap.set('n', '<F11>', ':bprev<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<F12>', ':bnext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
