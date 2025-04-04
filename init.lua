@@ -213,8 +213,21 @@ vim.keymap.set('n', '<F11>', ':bprev<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F12>', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<C-p>', 'yibvabp', { noremap = true, silent = true })
+for _, char in pairs { '(', ')', '{', '}', '[', ']', '<', '>' } do
+  vim.keymap.set('n', '<C-p>' .. char, 'yi' .. char .. 'va' .. char .. 'p', { noremap = true, silent = true })
+end
 
+-- sad cs grad mode
+vim.keymap.set('v', '<C-p>(', 'c(<C-r>")', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>{', 'c{<C-r>"}', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>[', 'c[<C-r>"]', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p><', 'c<<C-r>">', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>)', 'c(<C-r>")', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>}', 'c{<C-r>"}', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>]', 'c[<C-r>"]', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-p>>', 'c<<C-r>">', { noremap = true, silent = true })
+
+--
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
