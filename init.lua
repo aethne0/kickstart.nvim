@@ -213,6 +213,8 @@ vim.keymap.set('n', '<F11>', ':bprev<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F12>', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 
+vim.keymap.set('n', '<C-p>', 'yibvabp', { noremap = true, silent = true })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
