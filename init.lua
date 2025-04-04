@@ -349,6 +349,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>c', group = '[b]uffer' },
         { '<leader>c', group = '[c]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[d]ocument' },
         { '<leader>e', group = '[e]xplore files' },
@@ -458,7 +459,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-      local fb_actions = require('telescope').extensions.file_browser.actions
       vim.keymap.set('n', '<leader>eb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = '[e]xplore [b]uffer path' })
       vim.keymap.set('n', '<leader>ee', ':Telescope file_browser<CR>', { desc = '[e]xplore' })
       -- vim.keymap.set('n', '<leader>ec', fb_actions.create_from_prompt, { desc = '[e]xplorer [c]reate' })
@@ -758,13 +758,6 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
-
-            require('lspconfig').clangd.setup {
-              cmd = {
-                'clangd',
-                '--fallback-style=Microsoft',
-              },
-            }
           end,
         },
       }
