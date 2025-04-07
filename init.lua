@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -364,7 +364,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>c', group = '[b]uffer' },
+        { '<leader>b', group = '[b]uffer' },
         { '<leader>c', group = '[c]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[d]ocument' },
         { '<leader>e', group = '[e]xplore files' },
@@ -373,6 +373,7 @@ require('lazy').setup({
         { '<leader>w', group = '[w]orkspace' },
         { '<leader>t', group = '[t]oggle' },
         { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
+        { '<leader>u', group = '[u]i (visual)' },
       },
     },
   },
@@ -779,6 +780,45 @@ require('lazy').setup({
     end,
   },
 
+  {
+    --'folke/tokyonight.nvim',
+    'bluz71/vim-moonfly-colors',
+    name = 'moonfly',
+    lazy = false,
+    -- For some reason this includes minicyan/minischeme
+    priority = 1000,
+    config = function()
+      -- COLORSCHEME
+
+      local function setLight()
+        vim.opt.bg = 'light'
+        vim.cmd.colorscheme 'minicyan'
+        vim.opt.bg = 'light'
+        vim.cmd.colorscheme 'minicyan'
+      end
+      local function setDark()
+        vim.opt.bg = 'dark'
+        vim.cmd.colorscheme 'moonfly'
+        vim.opt.bg = 'dark'
+        vim.cmd.colorscheme 'moonfly'
+        --vim.cmd.colorscheme 'torte' --'wildcharm'
+      end
+
+      setDark()
+
+      vim.keymap.set('n', '<leader>ul', setLight, { noremap = true, silent = true, desc = 'bg=light' })
+      vim.keymap.set('n', '<leader>ud', setDark, { noremap = true, silent = true, desc = 'bg=dark' })
+    end,
+  },
+
+  {
+    'sainnhe/sonokai',
+    priority = 1000,
+    config = function()
+      -- COLORSCHEME
+    end,
+  },
+
   { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -939,30 +979,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'minischeme' --'murphy' --'minischeme' -- minicyan
-    end,
-  },
-
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = true } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -1009,6 +1027,12 @@ require('lazy').setup({
     config = function()
       require('bufferline').setup {}
     end,
+  },
+
+  {
+    'chentoast/marks.nvim',
+    event = 'VeryLazy',
+    opts = {},
   },
 
   {
